@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Calculating Potential Matches…</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #f7f7f7, #eaeaea);
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #222;
+      text-align: center;
+    }
+
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 18px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 420px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .status {
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+      min-height: 1.4em;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 14px;
+      background: #eee;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .progress {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #bde0fe, #cdb4db);
+      transition: width 0.4s ease;
+    }
+
+    button {
+      padding: 12px 24px;
+      border-radius: 30px;
+      border: none;
+      background-color: #333;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Loading Screen -->
+  <div class="card" id="loading">
+    <h1>Calculating Potential Matches…</h1>
+    <div class="status" id="statusText">Initializing…</div>
+
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
+  </div>
+
+  <!-- Result Screen -->
+  <div class="card hidden" id="result">
+    <h1>Results Are In 😌</h1>
+    <p>
+      Matches found: <strong>0</strong><br><br>
+      Status: <strong>Still single</strong><br><br>
+      But hey — at least the website is cute.
+    </p>
+
+    <button onclick="location.reload()">Try Again Next Year</button>
+  </div>
+
+  <script>
+    const statusMessages = [
+      "Scanning contacts…",
+      "Checking mutuals…",
+      "Reviewing questionable past decisions…",
+      "Checking exes… ❌",
+      "Lowering standards…",
+      "Expanding search radius…",
+      "Re-evaluating life choices…",
+      "Almost there…"
+    ];
+
+    const statusText = document.getElementById("statusText");
+    const progress = document.getElementById("progress");
+    const loading = document.getElementById("loading");
+    const result = document.getElementById("result");
+
+    let progressValue = 0;
+    let messageIndex = 0;
+
+    const interval = setInterval(() => {
+      progressValue += Math.floor(Math.random() * 12) + 5;
+      if (progressValue > 100) progressValue = 100;
+
+      progress.style.width = progressValue + "%";
+      statusText.textContent = statusMessages[messageIndex % statusMessages.length];
+      messageIndex++;
+
+      if (progressValue >= 100) {
+        clearInterval(interval);
+        setTimeout(() => {
+          loading.classList.add("hidden");
+          result.classList.remove("hidden");
+        }, 800);
+      }
+    }, 700);
+  </script>
+
+</body>
+</html>
